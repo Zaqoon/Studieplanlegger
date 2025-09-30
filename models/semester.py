@@ -1,6 +1,5 @@
-from pydantic import BaseModel, Field
-from typing import List
+from enum import Enum
 
-class Semester(BaseModel):
-    nummer: int = Field(..., description="Semester nummer, f.eks., 1 for første semester")
-    emner: List[str] = Field(default=[], description="Liste over emner i semesteret")
+class Semester(str, Enum):
+    HØST = "Høst"
+    VÅR = "Vår"

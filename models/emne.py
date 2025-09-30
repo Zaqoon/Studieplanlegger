@@ -1,8 +1,14 @@
-from pydantic import BaseModel, Field
-
+from pydantic import BaseModel, model_validator
+from .semester import Semester
 
 class Emne(BaseModel):
-    kode: str = Field(..., description="Emnekode, f.eks., 'DAT120'")
-    term: str = Field(..., description="Term, f.eks., 'Høst' or 'Vår'")
-    studie_poeng: int = Field(..., description="Antall studiepoeng for emnet")
-    tittel: str = Field(..., description="Tittel på emnet")
+    kode: str
+    semester: Semester
+    studiepoeng: int
+
+    @model_validator(mode="after")
+    def normaliser(cls, m: "Emne"):
+        m.kode = m.kode.strip().upper()
+        if m.studiepoeng <= 0:
+            raise ValueError("Studiepoeng må være større enn 0.")
+        return m
