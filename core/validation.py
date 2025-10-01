@@ -14,8 +14,8 @@ class StudieplanValidator:
         if not StudieplanValidator._gyldig_semester_for_emne(emne, semester_nr):
             return False, f"{emne.semester.capitalize()}emner kan ikke legges til i semester {semester_nr}"
         
-        if not StudieplanValidator._har_plass_i_semester(semester_nr, studieplan, alle_emner):
-            return False, f"Semester {semester_nr} har ikke plass til flere studiepoeng"
+        # if not StudieplanValidator._har_plass_i_semester(semester_nr, studieplan, alle_emner):
+        #     return False, f"Semester {semester_nr} har ikke plass til flere studiepoeng"
         
         return True, ""
     
