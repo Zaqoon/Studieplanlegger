@@ -1,14 +1,16 @@
-from pydantic import BaseModel, model_validator
-from .semester import Semester
+from dataclasses import dataclass
+from typing import Literal
 
-class Emne(BaseModel):
-    kode: str
-    semester: Semester
+
+@dataclass
+class Emne:
+    emnekode: str
+    semester: Literal["høst", "vår"]
     studiepoeng: int
-
-    @model_validator(mode="after")
-    def normaliser(cls, m: "Emne"):
-        m.kode = m.kode.strip().upper()
-        if m.studiepoeng <= 0:
-            raise ValueError("Studiepoeng må være større enn 0.")
-        return m
+    
+    def __post_init__(self):
+        if self.studiepoeng <= 0:
+            raise ValueError("Studiepoeng må være større enn 0")
+        if self.semester not in ["høst", "vår"]:
+            raise ValueError("Semester må være 'høst' eller 'vår'")
+            
