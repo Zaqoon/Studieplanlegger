@@ -10,13 +10,12 @@ En enkel og modulær applikasjon for å administrere emner og studieplaner. Bygg
 - Moderne UI med **CustomTkinter**, støtte for mørk/lys-modus og skalering.
 
 ## Screenshots
-Legg til skjermbilder av UI her:
 
-![Main Window](docs/screenshots/main_window.png)
-![Emne Dialog](docs/screenshots/emne_dialog.png)
-![Studieplan Dialog](docs/screenshots/studieplan_dialog.png)
+![Main Window](img/studieplan.png)
+![Emne Dialog](img/lag_nytt_emne.png)
+![Slett Emne](img/slett_emne.png)
+![Studieplan Dialog](img/legg_til_i_studieplan.png)
 
-(Opprett en mappe `docs/screenshots/` og legg bildene der.)
 
 ## Installasjon
 
@@ -38,11 +37,6 @@ source .venv/bin/activate   # Mac/Linux
 pip install -r requirements.txt
 ```
 
-### Viktige pakker
-- `customtkinter` (UI)
-- `pydantic` (modeller)
-- `tkinter` (følger med Python, men krever `python3-tk` på Linux)
-
 ## Kjøring
 Start applikasjonen med:
 
@@ -52,11 +46,11 @@ python main.py
 
 ## Prosjektstruktur
 ```
-core/             # Forretningslogikk / validering
-models/           # Pydantic-modeller (Emne, Studieplan, etc.)
-repositories/     # Lagring (f.eks. fil/JSON)
-services/         # Service-lag for emner og studieplan
-ui/               # CustomTkinter-baserte brukergrensesnitt
+core/             # Logikk / validering
+models/           # Pydantic modeller (Emne, Studieplan, etc.)
+repositories/     # Lagring av data
+services/         # Service for emner og studieplan
+ui/               # CustomTkinter GUI
 requirements.txt  # Avhengigheter
 main.py           # Inngangspunkt
 ```

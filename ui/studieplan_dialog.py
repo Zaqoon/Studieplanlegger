@@ -6,7 +6,7 @@ class StudieplanDialog:
         self.result = None
         self.dialog = ctk.CTkToplevel(parent)
         self.dialog.title("Legg til emne i studieplan")
-        self.dialog.geometry("400x300")
+        self.dialog.geometry("400x260")
         self.dialog.transient(parent)
         self.dialog.grab_set()
 
