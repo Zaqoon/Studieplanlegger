@@ -1,5 +1,5 @@
 import json
-from typing import Dict, Any
+from typing import Dict, Tuple
 from models.emne import Emne
 from models.studieplan import Studieplan
 
@@ -26,7 +26,7 @@ class FileRepository:
             return False, f"Feil ved lagring: {str(e)}"
     
     @staticmethod
-    def les_data(filnavn: str = "studiedata.json") -> tuple[bool, str, Dict[str, Emne], Studieplan]:
+    def les_data(filnavn: str = "studiedata.json") -> Tuple[bool, str, Dict[str, Emne], Studieplan]:
         try:
             with open(filnavn, 'r', encoding='utf-8') as f:
                 data = json.load(f)

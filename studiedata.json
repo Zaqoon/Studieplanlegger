@@ -1,0 +1,132 @@
+{
+  "emner": {
+    "BYG100": {
+      "emnekode": "BYG100",
+      "semester": "høst",
+      "studiepoeng": 5
+    },
+    "DAT125": {
+      "emnekode": "DAT125",
+      "semester": "høst",
+      "studiepoeng": 5
+    },
+    "KJE101": {
+      "emnekode": "KJE101",
+      "semester": "høst",
+      "studiepoeng": 5
+    },
+    "MSK205": {
+      "emnekode": "MSK205",
+      "semester": "høst",
+      "studiepoeng": 5
+    },
+    "YMF100": {
+      "emnekode": "YMF100",
+      "semester": "høst",
+      "studiepoeng": 10
+    },
+    "BYG140": {
+      "emnekode": "BYG140",
+      "semester": "vår",
+      "studiepoeng": 10
+    },
+    "BYG150": {
+      "emnekode": "BYG150",
+      "semester": "vår",
+      "studiepoeng": 5
+    },
+    "GEO285": {
+      "emnekode": "GEO285",
+      "semester": "vår",
+      "studiepoeng": 5
+    },
+    "YMF110": {
+      "emnekode": "YMF110",
+      "semester": "vår",
+      "studiepoeng": 10
+    },
+    "BYG205": {
+      "emnekode": "BYG205",
+      "semester": "høst",
+      "studiepoeng": 10
+    },
+    "FYS100": {
+      "emnekode": "FYS100",
+      "semester": "høst",
+      "studiepoeng": 10
+    },
+    "MAT100": {
+      "emnekode": "MAT100",
+      "semester": "høst",
+      "studiepoeng": 10
+    },
+    "BYG220": {
+      "emnekode": "BYG220",
+      "semester": "vår",
+      "studiepoeng": 10
+    },
+    "MAT200": {
+      "emnekode": "MAT200",
+      "semester": "vår",
+      "studiepoeng": 10
+    },
+    "STA100": {
+      "emnekode": "STA100",
+      "semester": "vår",
+      "studiepoeng": 10
+    },
+    "BYG200": {
+      "emnekode": "BYG200",
+      "semester": "høst",
+      "studiepoeng": 10
+    },
+    "BYGBAC": {
+      "emnekode": "BYGBAC",
+      "semester": "høst",
+      "studiepoeng": 20
+    },
+    "MAF310": {
+      "emnekode": "MAF310",
+      "semester": "høst",
+      "studiepoeng": 5
+    },
+    "ING200": {
+      "emnekode": "ING200",
+      "semester": "vår",
+      "studiepoeng": 10
+    }
+  },
+  "studieplan": {
+    "1": [
+      "BYG100",
+      "DAT125",
+      "KJE101",
+      "MSK205",
+      "YMF100"
+    ],
+    "2": [
+      "BYG140",
+      "BYG150",
+      "GEO285",
+      "YMF110"
+    ],
+    "3": [
+      "BYG205",
+      "FYS100",
+      "MAT100"
+    ],
+    "4": [
+      "BYG220",
+      "MAT200",
+      "STA100"
+    ],
+    "5": [
+      "BYG200",
+      "BYGBAC",
+      "MAF310"
+    ],
+    "6": [
+      "ING200"
+    ]
+  }
+}

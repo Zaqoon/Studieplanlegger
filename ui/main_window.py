@@ -2,8 +2,7 @@ import customtkinter as ctk
 from services.emne_service import EmneService
 from services.studieplan_service import StudieplanService
 from repositories.file_repository import FileRepository
-from ui import EmneDialog, StudieplanDialog
-
+from ui import EmneDialog, StudieplanDialog, SlettEmneDialog
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -33,13 +32,14 @@ class StudieplanApp:
         
         buttons = [
             ("1. Lag nytt emne", self.lag_nytt_emne),
-            ("2. Legg emne til studieplan", self.legg_til_emne_studieplan),
-            ("3. Vis alle emner", self.vis_alle_emner),
-            ("4. Vis studieplan", self.vis_studieplan),
-            ("5. Valider studieplan", self.valider_studieplan),
-            ("6. Lagre til fil", self.lagre_til_fil),
-            ("7. Les fra fil", self.les_fra_fil),
-            ("8. Avslutt", self.avslutt)
+            ("2. Slett emne", self.slett_emne),
+            ("3. Legg emne til studieplan", self.legg_til_emne_studieplan),
+            ("4. Vis alle emner", self.vis_alle_emner),
+            ("5. Vis studieplan", self.vis_studieplan),
+            ("6. Valider studieplan", self.valider_studieplan),
+            ("7. Lagre til fil", self.lagre_til_fil),
+            ("8. Les fra fil", self.les_fra_fil),
+            ("9. Avslutt", self.avslutt)
         ]
         
         for i, (text, command) in enumerate(buttons):
@@ -66,6 +66,15 @@ class StudieplanApp:
                 self.vis_melding(f"Emne {emnekode} opprettet")
             else:
                 self.vis_melding(f"Kunne ikke opprette emne {emnekode}")
+
+    def slett_emne(self):
+        dialog = SlettEmneDialog(
+            self.root,
+            self.emne_service,
+            self.studieplan_service,
+            on_change=lambda: self.vis_melding("Emne slettet og studieplan oppdatert.")
+        )
+        self.root.wait_window(dialog.dialog)
     
     def legg_til_emne_studieplan(self):
         dialog = StudieplanDialog(self.root, self.emne_service.get_emner_list())
