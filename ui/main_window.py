@@ -23,7 +23,7 @@ class StudieplanApp:
         main_frame = ctk.CTkFrame(self.root)
         main_frame.pack(fill="both", expand=True, padx=20, pady=20)
         
-        title = ctk.CTkLabel(main_frame, text="Studieplan Revisjonssystem", 
+        title = ctk.CTkLabel(main_frame, text="Studieplan",
                             font=ctk.CTkFont(size=24, weight="bold"))
         title.pack(pady=20)
         
