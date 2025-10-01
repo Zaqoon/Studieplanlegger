@@ -1,6 +1,6 @@
 # Studieplan App
 
-En enkel og modulær applikasjon for å administrere emner og studieplaner. Bygget med **Python** og **CustomTkinter**, organisert i et utvidbart prosjektoppsett med `models/`, `services/`, `core/`, `repositories/` og `ui/`.
+En enkel og modulær applikasjon for å administrere emner og studieplaner. Bygget med **Python** og **CustomTkinter**.
 
 ## Funksjoner
 - Opprett og slett emner (kode, semester, studiepoeng).
