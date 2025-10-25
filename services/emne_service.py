@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional
 from models.emne import Emne
 
+
 class EmneService:
     def __init__(self):
         self.emner: Dict[str, Emne] = {}

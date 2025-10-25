@@ -1,8 +1,17 @@
 import customtkinter as ctk
+import os
+from tkinter import filedialog as fd
 from services.emne_service import EmneService
 from services.studieplan_service import StudieplanService
 from repositories.file_repository import FileRepository
-from ui import EmneDialog, StudieplanDialog, SlettEmneDialog
+from ui import (
+    EmneDialog,
+    StudieplanDialog,
+    SlettEmneDialog,
+    FjernFraStudieplanDialog,
+    VelgEmneDialog,
+)
+from models.studieplan import Studieplan
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
@@ -31,15 +40,17 @@ class StudieplanApp:
         button_frame.pack(fill="x", padx=20, pady=10)
         
         buttons = [
-            ("1. Lag nytt emne", self.lag_nytt_emne),
-            ("2. Slett emne", self.slett_emne),
-            ("3. Legg emne til studieplan", self.legg_til_emne_studieplan),
-            ("4. Vis alle emner", self.vis_alle_emner),
-            ("5. Vis studieplan", self.vis_studieplan),
-            ("6. Valider studieplan", self.valider_studieplan),
-            ("7. Lagre til fil", self.lagre_til_fil),
-            ("8. Les fra fil", self.les_fra_fil),
-            ("9. Avslutt", self.avslutt)
+            ("1. Lag et nytt emne", self.lag_nytt_emne),
+            ("2. Legg til et emne i en studieplan", self.legg_til_emne_studieplan),
+            ("3. Fjern et emne fra en studieplan", self.fjern_emne_fra_studieplan),
+            ("4. Skriv ut ei liste over alle registrerte emner", self.vis_alle_emner),
+            ("5. Lag en ny tom studieplan", self.ny_tom_studieplan),
+            ("6. Skriv ut en studieplan med hvilke emner som er i hvert semester", self.vis_studieplan),
+            ("7. Sjekk om en studieplan er gyldig eller ikke", self.valider_studieplan),
+            ("8. Finn hvilke studieplaner som bruker et oppgitt emne", self.finn_planer_med_emne),
+            ("9. Lagre emnene og studieplanene til fil", self.lagre_til_fil),
+            ("10. Les inn emnene og studieplanene fra fil", self.les_fra_fil),
+            ("11. Avslutt", self.avslutt),
         ]
         
         for i, (text, command) in enumerate(buttons):
@@ -67,14 +78,17 @@ class StudieplanApp:
             else:
                 self.vis_melding(f"Kunne ikke opprette emne {emnekode}")
 
-    def slett_emne(self):
-        dialog = SlettEmneDialog(
-            self.root,
-            self.emne_service,
-            self.studieplan_service,
-            on_change=lambda: self.vis_melding("Emne slettet og studieplan oppdatert.")
-        )
+    def fjern_emne_fra_studieplan(self):
+        dialog = FjernFraStudieplanDialog(self.root, self.emne_service.get_emner_list())
         self.root.wait_window(dialog.dialog)
+
+        if dialog.result:
+            emnekode, semester_nr = dialog.result
+            ok = self.studieplan_service.fjern_emne_fra_semester(emnekode, semester_nr)
+            if ok:
+                self.vis_melding(f"Fjernet {emnekode} fra semester {semester_nr}.")
+            else:
+                self.vis_melding(f"Kunne ikke fjerne {emnekode} fra semester {semester_nr}.")
     
     def legg_til_emne_studieplan(self):
         dialog = StudieplanDialog(self.root, self.emne_service.get_emner_list())
@@ -104,18 +118,60 @@ class StudieplanApp:
             self.vis_melding("Studieplanen er ikke gyldig:\n" + "\n".join(feil))
     
     def lagre_til_fil(self):
+        rot = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+        lagre_mappe = os.path.join(rot, "saved_plans")
+        os.makedirs(lagre_mappe, exist_ok=True)
+        filnavn = fd.asksaveasfilename(
+            title="Lagre emner og studieplan",
+            defaultextension=".json",
+            filetypes=[("JSON filer", "*.json")],
+            initialdir=lagre_mappe,
+            initialfile="studiedata.json",
+        )
+        if not filnavn:
+            return
         suksess, melding = FileRepository.lagre_data(
-            self.emne_service.hent_alle_emner(), 
-            self.studieplan_service.studieplan
+            self.emne_service.hent_alle_emner(),
+            self.studieplan_service.studieplan,
+            filnavn,
         )
         self.vis_melding(melding)
     
     def les_fra_fil(self):
-        suksess, melding, emner, studieplan = FileRepository.les_data()
+        rot = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+        lagre_mappe = os.path.join(rot, "saved_plans")
+        os.makedirs(lagre_mappe, exist_ok=True)
+        filnavn = fd.askopenfilename(
+            title="Les emner og studieplan fra fil",
+            filetypes=[("JSON filer", "*.json")],
+            initialdir=lagre_mappe,
+        )
+        if not filnavn:
+            return
+        suksess, melding, emner, studieplan = FileRepository.les_data(filnavn)
         if suksess:
             self.emne_service.emner = emner
             self.studieplan_service.studieplan = studieplan
         self.vis_melding(melding)
+
+    def ny_tom_studieplan(self):
+        # Slett alle data i minnet og start på nytt
+        self.emne_service.emner = {}
+        self.studieplan_service.studieplan = Studieplan()
+        self.vis_melding("Ny tom studieplan opprettet. Alle emner er slettet fra minnet.")
+
+    def finn_planer_med_emne(self):
+        dialog = VelgEmneDialog(self.root, self.emne_service.get_emner_list())
+        self.root.wait_window(dialog.dialog)
+        if not dialog.result:
+            return
+        emnekode = dialog.result
+        semestre = self.studieplan_service.finn_semestre_for_emne(emnekode)
+        if semestre:
+            sem_txt = ", ".join(str(s) for s in sorted(semestre))
+            self.vis_melding(f"Emnet {emnekode} finnes i studieplanen i semester: {sem_txt}.")
+        else:
+            self.vis_melding(f"Emnet {emnekode} finnes ikke i studieplanen.")
     
     def avslutt(self):
         self.root.quit()

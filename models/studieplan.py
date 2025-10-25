@@ -3,7 +3,7 @@ from typing import List, Dict
 
 class Studieplan:
     def __init__(self):
-        self.semestre: Dict[int, List[str]] = {
+        self.semestre = {
             1: [], 2: [], 3: [], 4: [], 5: [], 6: []
         }
     

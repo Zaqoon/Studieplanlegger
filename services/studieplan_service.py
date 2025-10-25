@@ -28,9 +28,11 @@ class StudieplanService:
     
     def hent_studieplan_oversikt(self) -> List[str]:
         oversikt = []
-        semester_navn = {1: "1. semester (Høst)", 2: "2. semester (Vår)", 
-                        3: "3. semester (Høst)", 4: "4. semester (Vår)",
-                        5: "5. semester (Høst)", 6: "6. semester (Vår)"}
+        semester_navn = {
+            1: "1. semester (Høst)", 2: "2. semester (Vår)",
+            3: "3. semester (Høst)", 4: "4. semester (Vår)",
+            5: "5. semester (Høst)", 6: "6. semester (Vår)"
+        }
         
         for semester_nr in range(1, 7):
             emner = self.studieplan.semestre[semester_nr]
@@ -52,3 +54,11 @@ class StudieplanService:
     def valider_studieplan(self) -> Tuple[bool, List[str]]:
         return StudieplanValidator.valider_studieplan(
             self.studieplan, self.emne_service.hent_alle_emner())
+
+    def finn_semestre_for_emne(self, emnekode: str) -> List[int]:
+        """Returnerer en liste over semester der emnet finnes i studieplanen."""
+        treff = []
+        for semester_nr, emner in self.studieplan.semestre.items():
+            if emnekode in emner:
+                treff.append(semester_nr)
+        return treff

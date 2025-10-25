@@ -20,10 +20,10 @@ class FileRepository:
         
         try:
             with open(filnavn, 'w', encoding='utf-8') as f:
-                json.dump(data, f, ensure_ascii=False, indent=2)
+                json.dump(data, f, ensure_ascii=False, indent=4)
             return True, f"Data lagret til {filnavn}"
         except Exception as e:
-            return False, f"Feil ved lagring: {str(e)}"
+            return False, f"Feil ved lagring: {e}"
     
     @staticmethod
     def les_data(filnavn: str = "studiedata.json") -> Tuple[bool, str, Dict[str, Emne], Studieplan]:
